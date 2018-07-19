@@ -8,8 +8,14 @@ using WebApplication24.Models;
 
 namespace WebApplication24.Controllers
 {
+    using Microsoft.Extensions.Options;
     public class HomeController : Controller
     {
+        private readonly IOptions<MySettings> settings;
+        public HomeController(IOptions<MySettings> settings)
+        {
+            this.settings = settings;
+        }
         public IActionResult Index()
         {
             return View();

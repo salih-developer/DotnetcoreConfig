@@ -12,14 +12,19 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace WebApplication24
 {
+    using WebApplication24.Models;
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public IHostingEnvironment HostingEnvironment { get; private set; }
+        public IConfiguration Configuration { get; private set; }
+
+        public Startup(IConfiguration configuration, IHostingEnvironment env)
         {
+            this.Configuration = configuration;
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
+    
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -31,8 +36,9 @@ namespace WebApplication24
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-
+            services.Configure<MySettings>(Configuration.GetSection("MySettings"));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddApplicationInsightsTelemetry(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
