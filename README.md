@@ -1,0 +1,1 @@
+As most of you are aware, in ASP.NET Core, we don't have anything called Web.config which we use to write our connection strings or application specific settings. Rather, here we have a file named appsettings.json to store similar information. There are a few very common use cases where we need to maintain multiple appsettings.json files in a single solution
