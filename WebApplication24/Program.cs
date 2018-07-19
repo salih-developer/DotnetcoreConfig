@@ -12,15 +12,17 @@
         }
         public static IWebHostBuilder CreateWebHostBuilder(string[] args)
         {
+
             return WebHost.CreateDefaultBuilder(args).ConfigureAppConfiguration(
-                                                                                (context, builder) =>
-                                                                                {
-                                                                                    var environment = context.HostingEnvironment;
-                                                                                    var pathOfCommonSettingsFile = Path.Combine(environment.ContentRootPath, "..", "Common");
-                                                                                    builder.AddJsonFile("appSettings.json", true)
-                                                                                           .AddJsonFile(Path.Combine(pathOfCommonSettingsFile, "CommonSettings.json"), true);
-                                                                                    builder.AddEnvironmentVariables();
-                                                                                }).UseStartup<Startup>();
+                (context, builder) =>
+                {
+                    var environment = context.HostingEnvironment;
+                    var pathOfCommonSettingsFile = Path.Combine(environment.ContentRootPath, "..", "Common");
+                    builder.AddJsonFile("appSettings.json", true,true)
+                    .AddJsonFile($"appsettings.{environment.EnvironmentName}.json", optional: true)
+                    .AddJsonFile(Path.Combine(pathOfCommonSettingsFile, "CommonSettings.json"), true);
+                    builder.AddEnvironmentVariables();
+                }).UseStartup<Startup>();
         }
     }
 }
